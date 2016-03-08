@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var engine = require('ejs-mate');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session); //引人redis库,session存放的地点和session关联起来
 var config = require('./config'); //引人自定义配置文件
 
 //var routes = require('./routes/index');
@@ -26,8 +28,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 //如果碰到静态文件前缀public就路由到public目录下
 app.use('/public',express.static(path.join(__dirname, 'public')));
-
-
+//加入session
+app.use(session({
+  secret:'disfjdsfidslfjlsdjfl',  //对session加密的密钥
+  //session存储在redis中配置
+  store: new RedisStore({
+    port: 6379,
+    host: '127.0.0.1'
+  }),
+  resave: true, //指每次请求都重新设置session过期时间
+  saveUninitialized: true //是指每次请求都设置个session、cookie,默认给个标示为connect.sid
+}));
 /*
  locals是个对象(也是变量)是贯穿在我们整个应用程序生命周期的
  这个对象中属性，在我们整个视图层可以访问到的
@@ -37,6 +48,12 @@ app.locals.config = config;
 //app.use('/users', users);
 
 app.use('/', webRouter); //用户登录和注册路由加入中间价
+
+
+
+
+
+
 
 
 
