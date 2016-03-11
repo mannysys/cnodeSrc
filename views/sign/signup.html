@@ -10,13 +10,13 @@
         </div>
         <div class="inner">
             <!-- 显示错误信息 -->
-            <% if(type(error) != 'undefined' && error){ %>
+            <% if(typeof(error) != 'undefined' && error){ %>
             <div class="alert alert-error">
                 <strong><%=error%></strong>
             </div>
             <% } %>
             <!-- 显示成功信息 -->
-            <% if(type(success) != 'undefined' && success){ %>
+            <% if(typeof(success) != 'undefined' && success){ %>
             <div class="alert alert-error">
                 <strong><%=success%></strong>
             </div>
@@ -31,13 +31,13 @@
                 <div class="control-group">
                     <label for="pass" class="control-label">密码</label>
                     <div class="controls">
-                        <input type="text" name="pass" id="pass" class="input-xlarge"/>
+                        <input type="password" name="pass" id="pass" class="input-xlarge"/>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="re_pass" class="control-label">确认密码</label>
                     <div class="controls">
-                        <input type="text" name="re_pass" id="re_pass" class="input-xlarge"/>
+                        <input type="password" name="re_pass" id="re_pass" class="input-xlarge"/>
                     </div>
                 </div>
                 <div class="control-group">

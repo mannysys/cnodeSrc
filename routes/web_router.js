@@ -1,19 +1,19 @@
 var express = require('express');
 var router = express.Router();
-// ÒıÈË¿ØÖÆÆ÷Ä£¿é
+// å¼•äººæ§åˆ¶å™¨æ¨¡å—
 var signController = require('../controllers/sign');
 
-// Â·ÓÉÏÔÊ¾×¢²áÒ³Ãæ
+// è·¯ç”±æ˜¾ç¤ºæ³¨å†Œé¡µé¢
 router.get('/signup', signController.showSignup);
-// Â·ÓÉÌá½»×¢²áĞÅÏ¢
+// è·¯ç”±æäº¤æ³¨å†Œä¿¡æ¯
 router.post('/signup', signController.signup);
 
-// Â·ÓÉÏÔÊ¾µÇÂ½Ò³Ãæ
+// è·¯ç”±æ˜¾ç¤ºç™»é™†é¡µé¢
 router.get('/signin', signController.showSignin);
-// Â·ÓÉÌá½»µÇÂ½ĞÅÏ¢
+// è·¯ç”±æäº¤ç™»é™†ä¿¡æ¯
 router.post('/signin', signController.signin);
 
-// Â·ÓÉµÇ³ö
+// è·¯ç”±ç™»å‡º
 router.get('/signout', signController.signout);
 
 
@@ -21,92 +21,6 @@ router.get('/signout', signController.signout);
 
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

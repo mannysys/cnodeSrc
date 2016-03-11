@@ -1,83 +1,85 @@
 /**
- * ´¦ÀíµÇÂ¼ºÍ×¢²á¹¦ÄÜ
+ * å¤„ç†ç™»å½•å’Œæ³¨å†ŒåŠŸèƒ½
  */
 var eventproxy = require('eventproxy');
 var UserModel = require('../models/user');
-//ÏÔÊ¾×¢²áÒ³Ãæ
+//æ˜¾ç¤ºæ³¨å†Œé¡µé¢
 exports.showSignup = function(req, res){
-    res.sender('sign/signup');
+    res.render('sign/signup');
 };
-//´¦Àí×¢²áÒ³ÃæÌá½»µÄĞÅÏ¢
+//å¤„ç†æ³¨å†Œé¡µé¢æäº¤çš„ä¿¡æ¯
 exports.signup = function(req, res){
-    //»ñÈ¡ÓÃ»§Ìá½»µÄÊı¾İ
+    //è·å–ç”¨æˆ·æäº¤çš„æ•°æ®
     var username = req.body.loginname;
     var pass = req.body.pass;
     var re_pass = req.body.re_pass;
     var email = req.body.email;
     var ep = new eventproxy();
-    //²¶»ñµ½Å×³öÊÂ¼şµÄ´íÎóĞÅÏ¢
+    //æ•è·åˆ°æŠ›å‡ºäº‹ä»¶çš„é”™è¯¯ä¿¡æ¯
     ep.on('info_error', function(msg){
-        res.status(422);//·µ»Ø¸øä¯ÀÀÆ÷Ò»¸ö×´Ì¬Âë
+        res.status(422);//è¿”å›ç»™æµè§ˆå™¨ä¸€ä¸ªçŠ¶æ€ç 
         res.render('sign/signup',{error: msg});
     });
-    //Ğ£ÑéÊı¾İ
-    //Èç¹ûitemÊı×éÖĞÔªËØµÈÓÚ¿ÕÁË·µ»Øtrue
+    //æ ¡éªŒæ•°æ®
+    //å¦‚æœitemæ•°ç»„ä¸­å…ƒç´ ç­‰äºç©ºäº†è¿”å›true
     var hasEmptyInfo=[username, pass, re_pass, email].some(function(item){
         return item === '';
     });
-    //Èç¹ûµÚÒ»´ÎÊäÈëÃÜÂëºÍµÚ¶ş´ÎÊäÈëµÄÈ·ÈÏÃÜÂëÊÇ²»Ò»ÑùµÄÔò·µ»Øtrue
+    //å¦‚æœç¬¬ä¸€æ¬¡è¾“å…¥å¯†ç å’Œç¬¬äºŒæ¬¡è¾“å…¥çš„ç¡®è®¤å¯†ç æ˜¯ä¸ä¸€æ ·çš„åˆ™è¿”å›true
     var isPassDiff = pass !== re_pass;
     if(hasEmptyInfo || isPassDiff){
-        //Å×³öÒ»¸ö´íÎóÊÂ¼ş
-        ep.emit('info_error', '×¢²áĞÅÏ¢´íÎó');
+        //æŠ›å‡ºä¸€ä¸ªé”™è¯¯äº‹ä»¶
+        ep.emit('info_error', 'æ³¨å†Œä¿¡æ¯é”™è¯¯');
         return;
     }
-    //±£´æµ½Êı¾İ¿â
-    //¼ì²éÒ»ÏÂ×¢²áµÄÓÃ»§ÃûºÍÓÊÏäÊÇ·ñÔÚÊı¾İ¿âÖĞÒÑ¾­´æÔÚ
+    //ä¿å­˜åˆ°æ•°æ®åº“
+    //æ£€æŸ¥ä¸€ä¸‹æ³¨å†Œçš„ç”¨æˆ·åå’Œé‚®ç®±æ˜¯å¦åœ¨æ•°æ®åº“ä¸­å·²ç»å­˜åœ¨
     UserModel.getUserBySignupInfo(username, email, function(err, users){
         if(err){
-            ep.emit('info_error', '»ñÈ¡ÓÃ»§Êı¾İÊ§°Ü£¡');
+            ep.emit('info_error', 'è·å–ç”¨æˆ·æ•°æ®å¤±è´¥ï¼');
             return;
         }
-        //Èç¹û²éÑ¯³öÓÃ»§ºÍÓÊÏäÊı¾İ³¤¶È¾ÍÊÇ´óÓÚ0£¬±íÊ¾ÓĞÓÃ»§»òÕßÓÊÏä´æÔÚ
+        //å¦‚æœæŸ¥è¯¢å‡ºç”¨æˆ·å’Œé‚®ç®±æ•°æ®é•¿åº¦å°±æ˜¯å¤§äº0ï¼Œè¡¨ç¤ºæœ‰ç”¨æˆ·æˆ–è€…é‚®ç®±å­˜åœ¨
+        console.log('é•¿åº¦ï¼š'+users);
+
         if(users.length > 0){
-            ep.emit('info_error', 'ÓÃ»§Ãû»òÕßÓÊÏä±»Õ¼ÓÃ£¡');
+            ep.emit('info_error', 'ç”¨æˆ·åæˆ–è€…é‚®ç®±è¢«å ç”¨ï¼');
             return;
         }
-        //½«Êı¾İ±£´æµ½Êı¾İ¿â
+        //å°†æ•°æ®ä¿å­˜åˆ°æ•°æ®åº“
         UserModel.addUser({username:username, pass:pass, email:email},function(err,result){
             if(result){
-                res.render('sign/signup', {success: '¹§Ï²Äã£¬×¢²á³É¹¦'});
+                res.render('sign/signup', {success: 'æ­å–œä½ ï¼Œæ³¨å†ŒæˆåŠŸ'});
             }else{
-                ep.emit('info_error', '×¢²áÊ§°Ü£¡');
+                ep.emit('info_error', 'æ³¨å†Œå¤±è´¥ï¼');
             }
         });
     });
 
 };
 
-//ÏÔÊ¾µÇÂ¼Ò³Ãæ
+//æ˜¾ç¤ºç™»å½•é¡µé¢
 exports.showSignin = function(req, res){
     res.render('sign/signin');
 };
-//´¦ÀíÓÃ»§µÇÂ¼µÄÌá½»ĞÅÏ¢
+//å¤„ç†ç”¨æˆ·ç™»å½•çš„æäº¤ä¿¡æ¯
 exports.signin = function(req, res){
     var username = req.body.name;
     var pass = req.body.pass;
-    //Ğ£ÑéÊı¾İ
+    //æ ¡éªŒæ•°æ®
     if(username || pass){
         res.status(422);
-        return res.render('sign/signin', {error: 'ÄúÌîĞ´µÄĞÅÏ¢²»ÍêÕû'});
+        return res.render('sign/signin', {error: 'æ‚¨å¡«å†™çš„ä¿¡æ¯ä¸å®Œæ•´'});
     }
-    //´ÓÊı¾İ¿â²éÑ¯ÓÃ»§
+    //ä»æ•°æ®åº“æŸ¥è¯¢ç”¨æˆ·
     UserModel.getUser(username, pass, function(err, user){
-        //Èç¹ûÓÃ»§²éÑ¯µ½£¬Ôò½«ÓÃ»§±£´æµ½sessionÖĞ
+        //å¦‚æœç”¨æˆ·æŸ¥è¯¢åˆ°ï¼Œåˆ™å°†ç”¨æˆ·ä¿å­˜åˆ°sessionä¸­
         if(user){
             req.session.user = user;
-            res.render('sign/signin', {success: 'µÇÂ½³É¹¦'});
+            res.render('sign/signin', {success: 'ç™»é™†æˆåŠŸ'});
         }else{
             res.status(422);
-            res.render('sign/signin', {error: 'ÓÃ»§Ãû»òÕßÃÜÂë´íÎó£¡'});
+            res.render('sign/signin', {error: 'ç”¨æˆ·åæˆ–è€…å¯†ç é”™è¯¯ï¼'});
         }
 
     });
@@ -85,10 +87,10 @@ exports.signin = function(req, res){
 
 };
 
-//´¦ÀíÓÃ»§µÇ³ö¹¦ÄÜ
+//å¤„ç†ç”¨æˆ·ç™»å‡ºåŠŸèƒ½
 exports.signout = function(req, res){
-    req.session.destory(); //Çå¿ÕÒ»ÏÂsession
-    res.redirect('/'); //ÖØ¶¨Ïòµ½Ê×Ò³
+    req.session.destory(); //æ¸…ç©ºä¸€ä¸‹session
+    res.redirect('/'); //é‡å®šå‘åˆ°é¦–é¡µ
 };
 
 

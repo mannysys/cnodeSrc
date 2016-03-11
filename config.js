@@ -1,5 +1,5 @@
 var config = {
-  site_logo: './public/images/logo.svg' //svg¸ñÊ½Í¼Æ¬ÎŞÂÛÊÇÔÚÆÁÄ»ºÍ·Ö±æÂÊ´óĞ¡Çé¿öÏÂ¶¼ÄÜºÜºÃÏÔÊ¾
+  site_logo: './public/images/logo.svg' //svgæ ¼å¼å›¾ç‰‡æ— è®ºæ˜¯åœ¨å±å¹•å’Œåˆ†è¾¨ç‡å¤§å°æƒ…å†µä¸‹éƒ½èƒ½å¾ˆå¥½æ˜¾ç¤º
 
 
 };

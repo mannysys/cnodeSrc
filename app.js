@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var engine = require('ejs-mate');
 var session = require('express-session');
-var RedisStore = require('connect-redis')(session); //ÒıÈËredis¿â,session´æ·ÅµÄµØµãºÍsession¹ØÁªÆğÀ´
-var config = require('./config'); //ÒıÈË×Ô¶¨ÒåÅäÖÃÎÄ¼ş
+var RedisStore = require('connect-redis')(session); //å¼•äººredisåº“,sessionå­˜æ”¾çš„åœ°ç‚¹å’Œsessionå…³è”èµ·æ¥
+var config = require('./config'); //å¼•äººè‡ªå®šä¹‰é…ç½®æ–‡ä»¶
 
 //var routes = require('./routes/index');
 //var users = require('./routes/users');
@@ -15,7 +15,7 @@ var webRouter = require('./routes/web_router');
 
 var app = express();
 
-// ÉèÖÃÊÓÍ¼Ä£°åÒıÇæ
+// è®¾ç½®è§†å›¾æ¨¡æ¿å¼•æ“
 app.engine('html',engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
@@ -26,28 +26,28 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-//Èç¹ûÅöµ½¾²Ì¬ÎÄ¼şÇ°×ºpublic¾ÍÂ·ÓÉµ½publicÄ¿Â¼ÏÂ
+//å¦‚æœç¢°åˆ°é™æ€æ–‡ä»¶å‰ç¼€publicå°±è·¯ç”±åˆ°publicç›®å½•ä¸‹
 app.use('/public',express.static(path.join(__dirname, 'public')));
-//¼ÓÈësession
+//åŠ å…¥session
 app.use(session({
-  secret:'disfjdsfidslfjlsdjfl',  //¶Ôsession¼ÓÃÜµÄÃÜÔ¿
-  //session´æ´¢ÔÚredisÖĞÅäÖÃ
+  secret:'disfjdsfidslfjlsdjfl',  //å¯¹sessionåŠ å¯†çš„å¯†é’¥
+  //sessionå­˜å‚¨åœ¨redisä¸­é…ç½®
   store: new RedisStore({
     port: 6379,
     host: '127.0.0.1'
   }),
-  resave: true, //Ö¸Ã¿´ÎÇëÇó¶¼ÖØĞÂÉèÖÃsession¹ıÆÚÊ±¼ä
-  saveUninitialized: true //ÊÇÖ¸Ã¿´ÎÇëÇó¶¼ÉèÖÃ¸ösession¡¢cookie,Ä¬ÈÏ¸ø¸ö±êÊ¾Îªconnect.sid
+  resave: true, //æŒ‡æ¯æ¬¡è¯·æ±‚éƒ½é‡æ–°è®¾ç½®sessionè¿‡æœŸæ—¶é—´
+  saveUninitialized: true //æ˜¯æŒ‡æ¯æ¬¡è¯·æ±‚éƒ½è®¾ç½®ä¸ªsessionã€cookie,é»˜è®¤ç»™ä¸ªæ ‡ç¤ºä¸ºconnect.sid
 }));
 /*
- localsÊÇ¸ö¶ÔÏó(Ò²ÊÇ±äÁ¿)ÊÇ¹á´©ÔÚÎÒÃÇÕû¸öÓ¦ÓÃ³ÌĞòÉúÃüÖÜÆÚµÄ
- Õâ¸ö¶ÔÏóÖĞÊôĞÔ£¬ÔÚÎÒÃÇÕû¸öÊÓÍ¼²ã¿ÉÒÔ·ÃÎÊµ½µÄ
+ localsæ˜¯ä¸ªå¯¹è±¡(ä¹Ÿæ˜¯å˜é‡)æ˜¯è´¯ç©¿åœ¨æˆ‘ä»¬æ•´ä¸ªåº”ç”¨ç¨‹åºç”Ÿå‘½å‘¨æœŸçš„
+ è¿™ä¸ªå¯¹è±¡ä¸­å±æ€§ï¼Œåœ¨æˆ‘ä»¬æ•´ä¸ªè§†å›¾å±‚å¯ä»¥è®¿é—®åˆ°çš„
  */
 app.locals.config = config;
 //app.use('/', routes);
 //app.use('/users', users);
 
-app.use('/', webRouter); //ÓÃ»§µÇÂ¼ºÍ×¢²áÂ·ÓÉ¼ÓÈëÖĞ¼ä¼Û
+app.use('/', webRouter); //ç”¨æˆ·ç™»å½•å’Œæ³¨å†Œè·¯ç”±åŠ å…¥ä¸­é—´ä»·
 
 
 
