@@ -3,12 +3,12 @@
  */
 
 /*
-   ¼ì²éÓÃ»§ÊÇ·ñµÇÂ¼¹ı
+   æ£€æŸ¥ç”¨æˆ·æ˜¯å¦ç™»å½•è¿‡
  */
 exports.requireLogin = function(req, res, next){
     if(req.session.user){
-        return next();//¼ÌĞøÖ´ĞĞ
+        return next();//ç»§ç»­æ‰§è¡Œ
     }
     res.status(402);
-    res.redirect('/signin');//Ã»ÓĞµÇÂ¼¾ÍÌø×ªµ½µÇÂ¼Ò³
+    res.redirect('/signin');//æ²¡æœ‰ç™»å½•å°±è·³è½¬åˆ°ç™»å½•é¡µ
 }
