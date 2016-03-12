@@ -40,8 +40,6 @@ exports.signup = function(req, res){
             return;
         }
         //如果查询出用户和邮箱数据长度就是大于0，表示有用户或者邮箱存在
-        console.log('长度：'+users);
-
         if(users.length > 0){
             ep.emit('info_error', '用户名或者邮箱被占用！');
             return;
@@ -66,8 +64,11 @@ exports.showSignin = function(req, res){
 exports.signin = function(req, res){
     var username = req.body.name;
     var pass = req.body.pass;
+
+    console.log(username+'=='+pass);
+
     //校验数据
-    if(username || pass){
+    if(!username || !pass){
         res.status(422);
         return res.render('sign/signin', {error: '您填写的信息不完整'});
     }
@@ -89,7 +90,7 @@ exports.signin = function(req, res){
 
 //处理用户登出功能
 exports.signout = function(req, res){
-    req.session.destory(); //清空一下session
+    req.session.destroy(); //清空一下session
     res.redirect('/'); //重定向到首页
 };
 

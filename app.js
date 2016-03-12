@@ -39,6 +39,11 @@ app.use(session({
   resave: true, //指每次请求都重新设置session过期时间
   saveUninitialized: true //是指每次请求都设置个session、cookie,默认给个标示为connect.sid
 }));
+//检测用户是否登录过，如果登录过从session取值赋值给locals.current_user
+app.use(function(req, res, next){
+  app.locals.current_user = req.session.user;
+  next();
+});
 /*
  locals是个对象(也是变量)是贯穿在我们整个应用程序生命周期的
  这个对象中属性，在我们整个视图层可以访问到的
