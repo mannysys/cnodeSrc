@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var signController = require('../controllers/sign');//控制器模块
+var signController = require('../controllers/sign');//用户控制器模块
+var topicController = require('../controllers/topic');//话题控制器模块
+var siteController = require('../controllers/site'); //主页列表控制器模块
 var auth = require('../middlewares/auth');//检测用户是否登录过中间件模块
 
 // 路由显示注册页面
@@ -15,16 +17,13 @@ router.post('/signin', signController.signin);
 router.get('/signout', signController.signout);
 
 //显示发表话题页面（请求路由后会先执行中间件然后再继续执行匿名函数）
-router.get('/topic/create', auth.requireLogin, function(req, res){
-    res.render('topic/create');
-});
+router.get('/topic/create', auth.requireLogin, topicController.showCreate);
 //处理用户提交的话题信息
-router.post('/topic/create', function(req, res){
-
-});
+router.post('/topic/create', topicController.create);
 
 
-
+//显示主页
+router.get('/', siteController.index);
 
 
 

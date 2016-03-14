@@ -3,11 +3,23 @@
     <div class="panel">
         <div class="header">
             <ul class="breadcrumb">
-                <li>主页<span class="divider">/</span></li>
+                <li><a href="/">主页</a><span class="divider">/</span></li>
                 <li>发布话题</li>
             </ul>
         </div>
         <div class="inner">
+            <!-- 显示错误信息 -->
+            <% if(typeof(error) != 'undefined' && error){ %>
+            <div class="alert alert-error">
+                <strong><%=error%></strong>
+            </div>
+            <% } %>
+            <!-- 显示成功信息 -->
+            <% if(typeof(success) != 'undefined' && success){ %>
+            <div class="alert alert-error">
+                <strong><%=success%></strong>
+            </div>
+            <% } %>
             <form action="/topic/create" method="post" id="create_topic_form">
                 <span class="tab-selector">选择板块：</span>
                 <select name="tab" id="tab-value">

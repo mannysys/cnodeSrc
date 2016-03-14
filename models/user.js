@@ -2,15 +2,14 @@
  * 数据模型
  * 添加用户数据和查询用户数据的
  */
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://127.0.0.1/node_club');
+var mongoose = require('../mongoose_helper').mongoose;
 
 var UserSchema = new mongoose.Schema({
     username: String,
     pass: String,
     email: String
 });
+
 
 UserSchema.statics.getUserBySignupInfo = function(username, email, callback){
     // 第一个$or表示或者，第二个是查询条件
