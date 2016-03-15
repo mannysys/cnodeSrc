@@ -26,8 +26,6 @@ TopicSchema.statics.getTopics = function(query, option, callback){
 
 
 
-
-
 module.exports = mongoose.model('Topic', TopicSchema); //生成数据模型
 
 
