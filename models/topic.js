@@ -12,16 +12,20 @@ var TopicSchema = new mongoose.Schema({
     insertTime: Date
 });
 
-
+//添加数据
 TopicSchema.statics.addTopic = function(topic, callback){
-    //添加数据
     this.create(topic, callback);
 };
 
+//列表数据
 TopicSchema.statics.getTopics = function(query, option, callback){
     this.find(query, {}, option, callback);
 };
 
+//查询文章详情内容
+TopicSchema.statics.getTopic = function(topicId, callback){
+    this.findOne({_id: topicId}, callback);
+};
 
 
 

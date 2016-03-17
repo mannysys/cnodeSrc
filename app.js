@@ -8,6 +8,9 @@ var engine = require('ejs-mate');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session); //引人redis库,session存放的地点和session关联起来
 var config = require('./config'); //引人自定义配置文件
+var MarkdownIt = require('markdown-it'); //转换markdown格式工具
+var busboy = require('connect-busboy'); //图片上传工具
+var md = new MarkdownIt();
 
 //var routes = require('./routes/index');
 //var users = require('./routes/users');
@@ -20,7 +23,7 @@ app.engine('html',engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
-// uncomment after placing your favicon in /public
+// 放置图标和公共资源 favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -39,6 +42,9 @@ app.use(session({
   resave: true, //指每次请求都重新设置session过期时间
   saveUninitialized: true //是指每次请求都设置个session、cookie,默认给个标示为connect.sid
 }));
+
+//加入上传图片的中间件
+app.use(busboy());
 //检测用户是否登录过，如果登录过从session取值赋值给locals.current_user
 app.use(function(req, res, next){
   app.locals.current_user = req.session.user;
@@ -48,15 +54,12 @@ app.use(function(req, res, next){
  locals是个对象(也是变量)是贯穿在我们整个应用程序生命周期的
  这个对象中属性，在我们整个视图层可以访问到的
  */
+app.locals.md = md;
 app.locals.config = config;
 //app.use('/', routes);
 //app.use('/users', users);
 
 app.use('/', webRouter); //用户登录和注册路由加入中间价
-
-
-
-
 
 
 
@@ -70,10 +73,8 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// error handlers
 
-// development error handler
-// will print stacktrace
+// 开发环境下错误处理，将打印堆栈跟踪
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
@@ -84,8 +85,7 @@ if (app.get('env') === 'development') {
   });
 }
 
-// production error handler
-// no stacktraces leaked to user
+// 生成环境下错误处理
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
